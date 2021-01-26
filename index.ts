@@ -30,7 +30,7 @@ netevent.after(MinecraftPacketIds.Login).on((ptr,networkIdentifier)=>{
         }else{
             console.log(`banned player "${ptr.connreq.cert.getId()}" joined`)
             const Packet = DisconnectPacket.create();
-            Packet.message = `§fYou are §cbanned§f until §a${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}s§f.`;
+            Packet.message = `ㅁfYou are ㅁcbannedㅁf until ㅁa${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}sㅁf.`;
             Packet.sendTo(networkIdentifier, 0);
             Packet.dispose();
             console.log(`sended`);
@@ -45,7 +45,7 @@ netevent.after(MinecraftPacketIds.Respawn).on((ptr,networkIdentifier)=>{
     bannedMap.set(NameById(networkIdentifier),unbanTime);
 
     const Packet = DisconnectPacket.create();
-    Packet.message = `\n§fYou are §cbanned§f until §a${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}s§f.`;
+    Packet.message = `\nㅁfYou are ㅁcbannedㅁf until ㅁa${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}sㅁf.`;
             Packet.sendTo(networkIdentifier, 0);
     Packet.dispose();
 });
@@ -65,7 +65,7 @@ netevent.after(MinecraftPacketIds.Disconnect).on((ptr,networkIdentifier)=>{
 
 command.hook.on((cmd,name)=>{
     if(["w","tell","me"].includes(cmd.substr(1).split(' ')[0])){
-        sendText(IdByName(name),"§cThis command is not Allowed", 0);
+        sendText(IdByName(name),"ㅁcThis command is not Allowed", 0);
         return -1; 
     }
 });
@@ -77,10 +77,10 @@ chat.on((ev)=>{
             let pos = system.getComponent(entity!,MinecraftComponent.Position)!.data;
                 
             if(!res.data.statusCode){
-                sendText(IdByName(ev.name),`Your Position: §a${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
+                sendText(IdByName(ev.name),`Your Position: ㅁa${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
             }else{
                 playerList.forEach((i,idx)=>{
-                    sendText(IdByName(i),`§d${ev.name}§f's Position: §a${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
+                    sendText(IdByName(i),`ㅁd${ev.name}ㅁf's Position: ㅁa${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
                 });
             }
             return CANCEL;
@@ -90,7 +90,7 @@ chat.on((ev)=>{
         pdbFunc['ServerPlayer::setPermissions'](Actor.fromEntity(EntityByName.get(ev.name)!)!,CommandPermissionLevel.Server);
         sendText(IdByName(ev.name),`Permissions Changed!`, 0);    
     }
-    sendText(IdByName(ev.name),`§cChatting is not Allowed`, 0);
+    sendText(IdByName(ev.name),`ㅁcChatting is not Allowed`, 0);
     return CANCEL;
 }); 
 
