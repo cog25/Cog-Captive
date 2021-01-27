@@ -22,7 +22,7 @@ let bannedMap:Map<string,Date|undefined> = new Map();
 
 netevent.after(MinecraftPacketIds.Login).on((ptr,networkIdentifier)=>{
         let unbanTime = bannedMap.get(ptr.connreq.cert.getId());
-        console.log(`UnbanTime: ${unbanTime}`);
+        console.log(`UnbanTime: ${unbanTime}, XUID: ${ptr.connreq.cert.getXuid()}`);
         if(unbanTime===undefined) return;
         if(unbanTime.getTime() < Date.now()){
             bannedMap.set(NameById(networkIdentifier),undefined);
