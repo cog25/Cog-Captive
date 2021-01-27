@@ -45,7 +45,7 @@ netevent.after(MinecraftPacketIds.Respawn).on((ptr,networkIdentifier)=>{
     bannedMap.set(NameById(networkIdentifier),unbanTime);
 
     const Packet = DisconnectPacket.create();
-    Packet.message = `\n§fYou are §cbanned§f until §a${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}s§f.`;
+    Packet.message = `\n§fYou are §cbanned§f until §a${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}s§f.\n\nNow: §a${now.getHours()}h ${now.getMinutes()}m ${now.getSeconds()}s§f.`;
             Packet.sendTo(networkIdentifier, 0);
     Packet.dispose();
 });
