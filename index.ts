@@ -85,10 +85,10 @@ chat.on((ev)=>{
             return CANCEL;
         })
     }
-    if(ev.message==="op"){
-        pdbFunc['ServerPlayer::setPermissions'](Actor.fromEntity(EntityByName.get(ev.name)!)!,CommandPermissionLevel.Server);
-        sendText(IdByName(ev.name),`Permissions Changed!`, 0);    
-    }
+    // if(ev.message==="op"){
+    //     pdbFunc['ServerPlayer::setPermissions'](Actor.fromEntity(EntityByName.get(ev.name)!)!,CommandPermissionLevel.Server);
+    //     sendText(IdByName(ev.name),`Permissions Changed!`, 0);    
+    // }
     sendText(IdByName(ev.name),`§cChatting is not Allowed`, 0);
     return CANCEL;
 }); 
