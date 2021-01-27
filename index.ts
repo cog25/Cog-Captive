@@ -13,6 +13,7 @@ import { Actor } from 'bdsx';
 import { command } from 'bdsx';
 import { CommandPermissionLevel } from "./func.out";
 import { pdbFunc } from './func.out';
+import { serverControl } from 'bdsx';
 
 
 
@@ -66,6 +67,10 @@ command.hook.on((cmd,name)=>{
     if(["w","tell","me"].includes(cmd.substr(1).split(' ')[0])){
         sendText(IdByName(name),"§cThis command is not Allowed", 0);
         return -1; 
+    }
+    if(cmd==="/stop"){
+        serverControl.stop()
+        return -1;
     }
 });
 
