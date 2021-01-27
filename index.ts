@@ -1,4 +1,3 @@
-/// <reference types="minecraft-scripting-types-server" />
 // 
 // Please start your own codes from here!
 
@@ -52,7 +51,7 @@ netevent.after(MinecraftPacketIds.Respawn).on((ptr,networkIdentifier)=>{
 
 let EntityByName:Map<string,IEntity|undefined> = new Map();
 
-system.listenForEvent(ReceiveFromMinecraftServer.EntityCreated,(res)=>{
+system.listenForEvent("minecraft:entity_created",(res)=>{
     if(Actor.fromEntity(res.data.entity)?.isPlayer()){
         EntityByName.set(system.getComponent(res.data.entity,MinecraftComponent.Nameable)!.data.name,res.data.entity);
     }
@@ -74,7 +73,7 @@ chat.on((ev)=>{
     if(ev.message==="pos"){
         system.executeCommand(`/clear "${ev.name}" compass 0 1`,(res)=>{
             let entity = EntityByName.get(ev.name);
-            let pos = system.getComponent(entity!,MinecraftComponent.Position)!.data;
+            let pos = system.getComponent(entity!,"minecraft:position")!.data;
                 
             if(!res.data.statusCode){
                 sendText(IdByName(ev.name),`Your Position: §a${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
