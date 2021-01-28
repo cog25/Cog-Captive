@@ -23,6 +23,7 @@ let bannedMap:Map<string,Date|undefined> = new Map();
 
 netevent.after(MinecraftPacketIds.Login).on((ptr,networkIdentifier)=>{
         let unbanTime = bannedMap.get(ptr.connreq.cert.getId());
+        let now = new Date();
         console.log(`UnbanTime: ${unbanTime}, XUID: ${ptr.connreq.cert.getXuid()}`);
         if(unbanTime===undefined) return;
         if(unbanTime.getTime() < Date.now()){
@@ -30,7 +31,7 @@ netevent.after(MinecraftPacketIds.Login).on((ptr,networkIdentifier)=>{
         }else{
             console.log(`banned player "${ptr.connreq.cert.getId()}" joined`)
             const Packet = DisconnectPacket.create();
-            Packet.message = `§fYou are §cbanned§f until §a${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}s§f.`;
+            Packet.message = `§fYou are §cbanned§f until §a${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}s§f.\n\nNow: §a${now.getHours()}h ${now.getMinutes()}m ${now.getSeconds()}s§f.`;
             Packet.sendTo(networkIdentifier, 0);
             Packet.dispose();
             console.log(`sended`);
