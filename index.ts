@@ -80,6 +80,9 @@ chat.on((ev)=>{
         system.executeCommand(`/clear "${ev.name}" iron_ingot 0 1`,(res)=>{
             if(res.data.statusCode===0){
                 system.executeCommand(`/effect "${ev.name}" night_vision 300 1`,(res)=>{});
+                playerList.forEach((i,idx)=>{
+                    sendText(IdByName(i),`§d${ev.name} used Night Vision`, 0);    
+                });
             }
         }
     }
