@@ -76,6 +76,13 @@ command.hook.on((cmd,name)=>{
 });
 
 chat.on((ev)=>{
+    if(ev.message==="nv"){
+        system.executeCommand(`/clear "${ev.name}" iron_ingot 0 1`,(res)=>{
+            if(res.data.statusCode===0){
+                system.executeCommand(`/effect "${ev.name}" night_vision 300 1`,(res)=>{});
+            }
+        }
+    }
     if(ev.message==="pos"){
         system.executeCommand(`/clear "${ev.name}" compass 0 1`,(res)=>{
             let entity = EntityByName.get(ev.name);
@@ -103,7 +110,7 @@ let covidLoop:NodeJS.Timeout;
 
 netevent.after(MinecraftPacketIds.Login).on(()=>{
     covidLoop = setInterval(()=>{
-        system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.01,r=3] poison 1 10`,()=>{});
+        system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.01,r=3] poison 1 2`,()=>{});
         if(playerList.length===0) clearInterval(covidLoop);
     },500); 
 });
