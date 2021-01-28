@@ -113,7 +113,11 @@ let covidLoop:NodeJS.Timeout;
 
 netevent.after(MinecraftPacketIds.Login).on(()=>{
     covidLoop = setInterval(()=>{
-        system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.01,r=3] poison 1 2`,()=>{});
+        
+        for(let i in playerList){
+            system.executeCommand(`/execute "${i}" ~ ~ ~ effect @a[name=!"${i}",r=2] poison 1 1`,()=>{});
+        }
+        
         if(playerList.length===0) clearInterval(covidLoop);
     },500); 
 });
