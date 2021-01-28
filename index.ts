@@ -76,6 +76,7 @@ command.hook.on((cmd,name)=>{
 });
 
 chat.on((ev)=>{
+    // if(ev.message==="cb on"){}
     if(ev.message==="nv"){
         system.executeCommand(`/clear "${ev.name}" iron_ingot 0 1`,(res)=>{
             if(res.data.statusCode===0){
@@ -84,7 +85,7 @@ chat.on((ev)=>{
                     sendText(IdByName(i),`§d${ev.name} used Night Vision`, 0);    
                 });
             }
-        }
+        });
     }
     if(ev.message==="pos"){
         system.executeCommand(`/clear "${ev.name}" compass 0 1`,(res)=>{
@@ -106,7 +107,7 @@ chat.on((ev)=>{
     //     sendText(IdByName(ev.name),`Permissions Changed!`, 0);    
     // }
     sendText(IdByName(ev.name),`§cChatting is not Allowed`, 0);
-    return CANCEL;
+    // return CANCEL;
 }); 
 
 let covidLoop:NodeJS.Timeout;
