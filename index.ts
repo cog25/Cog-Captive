@@ -34,7 +34,7 @@ netevent.after(MinecraftPacketIds.Login).on((ptr,networkIdentifier)=>{
             Packet.message = `§fYou are §cbanned§f until §a${unbanTime.getHours()}h ${unbanTime.getMinutes()}m ${unbanTime.getSeconds()}s§f.\n\nNow: §a${now.getHours()}h ${now.getMinutes()}m ${now.getSeconds()}s§f.`;
             Packet.sendTo(networkIdentifier, 0);
             Packet.dispose();
-            console.log(`sended`);
+            // console.log(`sended`);
         }
         
 });
