@@ -131,8 +131,8 @@ netevent.after(MinecraftPacketIds.Login).on(()=>{
         // COVID-19
         system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.1,r=3] poison 1 2`,()=>{});
         
-        let entity:IEntity = EntityByName.get(ev.name)!;
-        let pos = system.getComponent(entity,"minecraft:position")!.data
+        // let entity:IEntity = EntityByName.get(ev.name)!;
+        // let pos = system.getComponent(entity,"minecraft:position")!.data
         
         
         if(playerList.length===0) clearInterval(loop);
