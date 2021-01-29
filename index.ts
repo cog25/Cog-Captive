@@ -76,50 +76,66 @@ command.hook.on((cmd,name)=>{
 });
 
 chat.on((ev)=>{
-    // if(ev.message==="cb on"){}
-    if(ev.message==="nv"){
-        system.executeCommand(`/clear "${ev.name}" iron_ingot 0 1`,(res)=>{
+
+    if(ev.message.startsWith("nv ")){
+        let amount = Number(ev.message.substr(3));
+        if(isNaN(amount)){
+            sendText(ev.networkIdentifier,`§cIncorrect Amount!`, 0);    
+            return CANCEL;
+        }
+        system.executeCommand(`/clear "${ev.name}" iron_nugget 0 ${amount}`,(res)=>{
             if(res.data.statusCode===0){
-                system.executeCommand(`/effect "${ev.name}" night_vision 300 1`,(res)=>{});
+                system.executeCommand(`/effect "${ev.name}" night_vision ${amount*60} 1`,(res)=>{});
                 playerList.forEach((i,idx)=>{
-                    sendText(IdByName(i),`§d${ev.name} used Night Vision`, 0);    
+                    sendText(IdByName(i),`§d${ev.name}§f bought §aNightVision§f for ${amount}m`, 0);    
                 });
+            }else{
+                
             }
         });
     }
-    if(ev.message==="pos"){
-        system.executeCommand(`/clear "${ev.name}" compass 0 1`,(res)=>{
-            let entity = EntityByName.get(ev.name);
-            let pos = system.getComponent(entity!,"minecraft:position")!.data;
-                
-            if(!res.data.statusCode){
-                sendText(IdByName(ev.name),`Your Position: §a${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
-            }else{
-                playerList.forEach((i,idx)=>{
-                    sendText(IdByName(i),`§d${ev.name}§f's Position: §a${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
-                });
-            }
-            return CANCEL;
-        })
+
+
+    if(ev.message==="pos"){ 
+        let entity:IEntity = EntityByName.get(ev.name)!;
+        let pos = system.getComponent(entity,"minecraft:position")!.data
+        playerList.forEach((i,idx)=>{
+            sendText(IdByName(i),`§d${ev.name}§f's Position: §a${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`, 0);    
+        });
     }
+    if(ev.message.startsWith("pos ")){
+        let amount = Number(ev.message.substr(4));
+        let entity:IEntity = EntityByName.get(ev.name)!;
+        let pos = system.getComponent(entity,"minecraft:position")!.data
+        system.executeCommand(`/clear "${ev.name}" redstone 0 ${amount}`,(res)=>{
+            if(res.data.statusCode===0){
+                showPosPlayerMap.set( ev.name , new Date((1000*60*amount)+Date.now()) );
+                sendText(ev.networkIdentifier,`§d${ev.name}§f bought §aShowPosition§f for ${amount}m`, 0);    
+            }
+        });
+    }
+    // // On Wine(Linux), pdb does not work... T^T
     // if(ev.message==="op"){
     //     pdbFunc['ServerPlayer::setPermissions'](Actor.fromEntity(EntityByName.get(ev.name)!)!,CommandPermissionLevel.Server);
     //     sendText(IdByName(ev.name),`Permissions Changed!`, 0);    
     // }
-    sendText(IdByName(ev.name),`§cChatting is not Allowed`, 0);
-    // return CANCEL;
+    sendText(ev.networkIdentifier,`§cChatting is not Allowed`, 0);
+    return CANCEL;
 }); 
 
-let covidLoop:NodeJS.Timeout;
-
+let loop:NodeJS.Timeout;
+let showPosPlayerMap:Map<string,Date> = new Map()
 netevent.after(MinecraftPacketIds.Login).on(()=>{
-    covidLoop = setInterval(()=>{
+
+    loop = setInterval(()=>{
+        // COVID-19
+        system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.1,r=3] poison 1 2`,()=>{});
         
-        for(let i in playerList){
-            system.executeCommand(`/execute "${i}" ~ ~ ~ effect @a[name=!"${i}",r=2] poison 1 1`,()=>{});
-        }
+        let entity:IEntity = EntityByName.get(ev.name)!;
+        let pos = system.getComponent(entity,"minecraft:position")!.data
         
-        if(playerList.length===0) clearInterval(covidLoop);
+        
+        if(playerList.length===0) clearInterval(loop);
     },500); 
 });
 
