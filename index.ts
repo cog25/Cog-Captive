@@ -70,7 +70,8 @@ command.hook.on((cmd,name)=>{
         return -1; 
     }
     if(cmd==="/stop"){
-        serverControl.stop()
+        clearInterval(loop);
+        serverControl.stop();
         return -1;
     }
 });
@@ -109,7 +110,7 @@ chat.on((ev)=>{
         let pos = system.getComponent(entity,"minecraft:position")!.data
         system.executeCommand(`/clear "${ev.name}" redstone 0 ${amount}`,(res)=>{
             if(res.data.statusCode===0){
-                showPosPlayerMap.set( ev.name , new Date((1000*60*amount)+Date.now()) );
+                showPosPlayerMap.set( entity , new Date((1000*60*amount)+Date.now()) );
                 sendText(ev.networkIdentifier,`§d${ev.name}§f bought §aShowPosition§f for ${amount}m`, 0);    
             }
         });
@@ -119,22 +120,26 @@ chat.on((ev)=>{
     //     pdbFunc['ServerPlayer::setPermissions'](Actor.fromEntity(EntityByName.get(ev.name)!)!,CommandPermissionLevel.Server);
     //     sendText(IdByName(ev.name),`Permissions Changed!`, 0);    
     // }
-    sendText(ev.networkIdentifier,`§cChatting is not Allowed`, 0);
-    return CANCEL;
+//     sendText(ev.networkIdentifier,`§cChatting is not Allowed`, 0);
+//     return CANCEL;
 }); 
 
 let loop:NodeJS.Timeout;
-let showPosPlayerMap:Map<string,Date> = new Map()
+let showPosPlayerMap:Map<IEntity,Date> = new Map()
 netevent.after(MinecraftPacketIds.Login).on(()=>{
 
     loop = setInterval(()=>{
         // COVID-19
-        system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.1,r=3] poison 1 2`,()=>{});
+        system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.2,r=3] poison 1 2`,()=>{});
         
-        // let entity:IEntity = EntityByName.get(ev.name)!;
-        // let pos = system.getComponent(entity,"minecraft:position")!.data
-        
-        
+        // showPosPlayerMap.forEach((val,entity) => {
+        //     let name = system.getComponent(entity,"minecraft:nameable")!.data.name
+        //     let pos = system.getComponent(entity!,"minecraft:position")!.data
+        //     system.executeCommand(`title "${name}" actionbar Position: §a${pos.x.toFixed(2)} ${pos.y.toFixed(2)} ${pos.z.toFixed(2)}`,()=>{});
+        //     if(val.getTime()>Date.now()){
+        //         showPosPlayerMap.delete(entity);
+        //     }
+        // });
         if(playerList.length===0) clearInterval(loop);
     },500); 
 });
