@@ -69,7 +69,7 @@ command.hook.on((cmd,name)=>{
         sendText(IdByName(name),"§cThis command is not Allowed", 0);
         return -1; 
     }
-    if(cmd==="/stop"){
+    if(cmd==="/sstop"){
         clearInterval(loop);
         serverControl.stop();
         return -1;
@@ -131,7 +131,11 @@ netevent.after(MinecraftPacketIds.Login).on(()=>{
     loop = setInterval(()=>{
         // COVID-19
         system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.2,r=3] poison 1 2`,()=>{});
-        
+        playerList.some((val,idx)=>{
+            system.executeCommand(`/execute ${val} ~ ~ ~ effect @a[name=!"${val}",r=3] poison 1 1`,()=>{});
+            console.log(`/execute ${val} ~ ~ ~ effect @a[name=!"${val}",r=3] poison 1 1`);
+        });
+
         // showPosPlayerMap.forEach((val,entity) => {
         //     let name = system.getComponent(entity,"minecraft:nameable")!.data.name
         //     let pos = system.getComponent(entity!,"minecraft:position")!.data
