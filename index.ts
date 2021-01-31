@@ -133,7 +133,7 @@ netevent.after(MinecraftPacketIds.Login).on(()=>{
         system.executeCommand(`/execute @a ~ ~ ~ effect @a[rm=0.2,r=3] poison 1 2`,()=>{});
         playerList.some((val,idx)=>{
             system.executeCommand(`/execute ${val} ~ ~ ~ effect @a[name=!"${val}",r=3] poison 1 1`,()=>{});
-            console.log(`/execute ${val} ~ ~ ~ effect @a[name=!"${val}",r=3] poison 1 1`);
+            // console.log(`/execute ${val} ~ ~ ~ effect @a[name=!"${val}",r=3] poison 1 1`);
         });
 
         // showPosPlayerMap.forEach((val,entity) => {
